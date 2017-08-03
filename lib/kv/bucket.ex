@@ -4,8 +4,19 @@ defmodule KV.Bucket do
   @doc """
   Starts a new bucket.
   """
-  def start_link(_opts) do
-    Agent.start_link(fn -> %{} end)
+  def start_link(name: name) do
+    Agent.start_link(fn -> %{} end, name: {:via, Registry, {KV.BucketRegistry, name}})
+  end
+
+  @doc """
+  Starts a new bucket by prepending `opts_rest` to `opts`.
+
+  Required for the special case of `Supervisor.start_child/2` when the strategy
+  is `:simple_one_for_one` and additional arguments are appended outside of
+  `opts`.
+  """
+  def start_link(opts, opts_rest) do
+    start_link(opts_rest ++ opts)
   end
 
   @doc """

@@ -7,8 +7,8 @@ defmodule KV.BucketSupervisor do
     Supervisor.start_link(__MODULE__, :ok, name: @name)
   end
 
-  def start_bucket do
-    Supervisor.start_child(@name, [])
+  def start_bucket(name) do
+    Supervisor.start_child(@name, [[name: name]])
   end
 
   def init(:ok) do

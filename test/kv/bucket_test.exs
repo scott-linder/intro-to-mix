@@ -4,7 +4,7 @@ defmodule KV.BucketTest do
   alias KV.Bucket
 
   setup do
-    {:ok, bucket} = start_supervised KV.Bucket
+    {:ok, bucket} = start_supervised({KV.Bucket, name: "test"})
     %{bucket: bucket}
   end
 
